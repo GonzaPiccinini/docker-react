@@ -1,0 +1,18 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone code
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v6
+
+      - name: Setup CI env and Run tests
+        run: npm ci && npm run test
