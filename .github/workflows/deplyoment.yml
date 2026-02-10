@@ -17,8 +17,14 @@ jobs:
       - name: Setup CI env and Run tests
         run: npm ci && npm run test
 
+      - name: Debug secret
+        run: |
+          echo "Longitud del secreto: ${#SECRET}"
+        env:
+          SECRET: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Login via Azure CLI
-        uses: azure/login@v2
+        uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
