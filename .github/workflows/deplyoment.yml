@@ -20,9 +20,7 @@ jobs:
       - name: Login via Azure CLI
         uses: azure/login@v2
         with:
-          client-id: da5320cd-9629-4599-966a-f5a6eb06df75
-          subscription-id: 376bf29b-f7bf-4d21-952f-3cee4560975a
-          tenant-id: 25ff2b16-a946-4500-b3b3-8fa74e1a5ee4
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # - name: Get short Gir commit SHA
       #   id: vars
