@@ -17,14 +17,34 @@ jobs:
       - name: Setup CI env and Run tests
         run: npm ci && npm run test
 
-      - name: Azure Container Registry build an push
-        id: acr
-        uses: azure/acr-build@v1
+      - name: Login via Azure CLI
+        uses: azure/login@v1
         with:
-          service_principal: ${{ secrets.service_principal }}
-          service_principal_password: ${{ secrets.service_principal_password }}
-          tenant: ${{ secrets.tenant }}
-          registry: ${{ secrets.registry }}
-          repository: ${{ secrets.repository }}
-          image: gonzapiccnini/docker-react
-          folder: ./
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+      # - name: Get short Gir commit SHA
+      #   id: vars
+      #   run: echo "COMMIT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Build and push image
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - run: |
+        docker build -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/docker-react:${{ github.sha }} .
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/docker-react:${{ github.sha }}
+
+      - name: Deploy to Azure Container Instances
+        uses: azure/aci-deploy@v1
+        with:
+          resource-group: ${{ secrets.RESOURCE_GROUP }}
+          dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
+          image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
+          registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          registry-username: ${{ secrets.REGISTRY_USERNAME }}
+          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+          name: aci-docker-react-app
+          location: 'brazil south'
