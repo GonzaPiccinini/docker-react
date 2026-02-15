@@ -6,8 +6,124 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: #0f0f1a;
+  background: linear-gradient(-45deg, #0f0f1a, #1f1f3a, #2b1055, #3a0ca3);
+  background-size: 400% 400%;
+  animation: gradientMove 15s ease infinite;
   color: white;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.sakura-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.petal {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #ffb7e8;
+  border-radius: 50% 50% 50% 0;
+  opacity: 0.8;
+  animation: fall linear infinite;
+}
+
+.petal:nth-child(odd) {
+  background: #ff4ecd;
+}
+
+.particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: float 10s linear infinite;
+}
+
+.hero-content h2 {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%,
+  100% {
+    text-shadow: 0 0 10px #ff4ecd;
+  }
+  50% {
+    text-shadow:
+      0 0 25px #ff4ecd,
+      0 0 40px #ff4ecd;
+  }
+}
+
+.card {
+  animation: floating 6s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10vh);
+    opacity: 0;
+  }
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-10vh) translateX(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(110vh) translateX(100px) rotate(360deg);
+  }
+}
+
+/* Posiciones aleatorias */
+.petal {
+  left: calc(100% * var(--i));
+  animation-duration: calc(8s + 5s * var(--i));
 }
 
 /* NAVBAR */
