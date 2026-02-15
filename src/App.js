@@ -55,7 +55,7 @@ function App() {
 
       {/* FOOTER */}
       <footer className="footer">
-        <p>© 2026 OtakuVerse — Hecho con ❤️ para fans del anime</p>
+        <p>© 2026 OtakuVerse — Hecho con ❤️ para fans del anime y el manga</p>
       </footer>
     </div>
   );
