@@ -1,6 +1,27 @@
 import './App.css';
+import { useMemo } from 'react';
 
 function App() {
+  const petals = useMemo(
+    () =>
+      [...Array(20)].map(() => ({
+        left: `${Math.random() * 100}%`,
+        duration: `${6 + Math.random() * 5}s`,
+        delay: `${Math.random() * 5}s`,
+      })),
+    [],
+  );
+
+  const particles = useMemo(
+    () =>
+      [...Array(15)].map(() => ({
+        left: `${Math.random() * 100}%`,
+        duration: `${8 + Math.random() * 10}s`,
+        delay: `${Math.random() * 10}s`,
+      })),
+    [],
+  );
+
   return (
     <div className="app">
       {/* NAVBAR */}
@@ -16,6 +37,20 @@ function App() {
 
       {/* HERO */}
       <section className="hero">
+        <div className="sakura-container">
+          {petals.map((petal, i) => (
+            <span
+              key={i}
+              className="petal"
+              style={{
+                left: petal.left,
+                animationDuration: petal.duration,
+                animationDelay: petal.delay,
+              }}
+            />
+          ))}
+        </div>
+
         <div className="hero-content">
           <h2>Explora el universo del anime y manga</h2>
           <p>
@@ -33,6 +68,20 @@ function App() {
           ></path>
         </svg>
       </section>
+
+      <div className="particles">
+        {particles.map((particle, i) => (
+          <span
+            key={i}
+            className="particle"
+            style={{
+              left: particle.left,
+              animationDuration: particle.duration,
+              animationDelay: particle.delay,
+            }}
+          />
+        ))}
+      </div>
 
       {/* SECCIÓN ANIMES */}
       <section className="section">
